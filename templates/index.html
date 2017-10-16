@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewpoint" content="witdh=device-width, initial-scale=1"/>
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Homemade+Apple" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href= "{{  url_for('static', filename='css/style.css')  }}"/>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/jquery.modal.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/jscolor.js') }}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.modal.css')  }}" type="text/css" media="screen"/>
+    <link rel="icon" href="{{ url_for('static', filename='pictures/icon.png')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Todo or not Todo</title>
+</head>
+
+<body>
+  <aside id="change-color">
+
+      <label for="body-background">Background color</label>
+      <input id="body-background" class="jscolor {onFineChange:'update_b(this)'}" value="C0C0C1" placeholder="background">
+
+      <script>
+      function update_b(jscolor) {
+
+          document.body.style.backgroundColor = '#' + jscolor
+      }
+      </script>
+
+
+      <label for="font-color-h1">Font color</label>
+      <input id="font-color-h1" class="jscolor {onFineChange:'update_h1(this)'}" value="FF6A80" placeholder="font">
+
+      <script>
+      function update_h1(jscolor) {
+
+          document.getElementById('font-h1').style.color = '#' + jscolor
+      }
+      </script>
+
+        <input id="font-color-h2" class="jscolor {onFineChange:'update_h2(this)'}" value="00BFD0" placeholder="font">
+
+      <script>
+      function update_h2(jscolor) {
+
+          document.getElementById('font-h2').style.color = '#' + jscolor
+      }
+      </script>
+  </aside>
+
+<div id="app">
+
+  <header>
+      <h1 id="font-h1">Todo or not Todo</h1>
+      <h2 id="font-h2">That is the query</h2>
+  </header>
+
+<div id="container">
+
+    <form id="add-form" action="{{url_for('add')}}" method="POST">
+        <input type="text" id="name" name="name" placeholder="What do you want to accomplish?" required>
+    </form>
+
+    <ul id="list">
+    {% for task in todo_list %}
+        {% if task.done == False %}
+            <li class ="not-done">
+                <span>
+                <a href="{{  url_for('toggle', todo_id=task.id)  }}">
+                    <img src="{{  url_for('static', filename='pictures/box.png')  }}">
+                </a>
+
+                <span class="todo-name">{{ task.name }}</span>
+
+                <a href="#edit-form-nd-{{task.id}}" rel="modal:open">
+                    <div id="edit-form-nd-{{task.id}}" class="hidden">
+                        <h1>Had a typo? Fix it!</h1>
+                        <form method="POST" action="{{ url_for('edit', todo_id=task.id) }}">
+                            <label for="new_name">New name</label>
+                            <input type="text" id="new_name" name="new_name" value ="{{ task.name }}" required>
+                        </form>
+                   </div>
+                    <img src="{{  url_for('static', filename='pictures/edit.png')  }}">
+                </a>
+
+                <a href="{{  url_for('remove', todo_id=task.id)  }}">
+                    <img src="{{  url_for('static', filename='pictures/delete.png')  }}">
+                </a>
+            </span>
+            </li>
+
+        {% else %}
+
+            <li class="done">
+            <a href="{{  url_for('toggle', todo_id=task.id)  }}">
+                <img src="{{  url_for('static', filename='pictures/checkbox.png')  }}">
+            </a>
+
+            <span class="todo-name">{{ task.name }}</span>
+
+            <a href="#edit-form-d-{{task.id}}" rel="modal:open">
+                <div id="edit-form-d-{{task.id}}" class="hidden">
+                    <h1>Had a typo? Fix it!</h1>
+                    <form method="POST" action="{{ url_for('edit', todo_id=task.id) }}">
+                        <label for="new_name">New name</label>
+                        <input type="text" id="new_name" name="new_name" value ="{{ task.name }}" required>
+                    </form>
+               </div>
+                <img src="{{  url_for('static', filename='pictures/edit.png')  }}">
+            </a>
+
+            <a href="{{  url_for('remove', todo_id=task.id)  }}">
+                <img src="{{  url_for('static', filename='pictures/delete.png')  }}">
+            </a>
+            </li>
+        {% endif %}
+
+    {% else %}
+
+        </ul>
+        <span><h3> No tasks yet!</h3> </span>
+
+    {% endfor %}
+
+</div>
+</div>
+</body>
+</html>
