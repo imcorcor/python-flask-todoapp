@@ -1,10 +1,10 @@
-#Before you judge the code
+# Before you judge the code
+
 This was my very first web app created in March 2017, after 4 months of learning Python programming language from scratch.
-I did not know any design patterns then or language specification.
-'Everybody has to start somewhere. You have your whole future ahead of you. Perfection doesn't happen right away.'
+As one wise man once said: "Everybody has to start somewhere. You have your whole future ahead of you. Perfection doesn't happen right away."
 
 
-# #ToDo App on WEB!
+## ToDo App on WEB!
 
 Simple web TODO app to manage your tasks.
 
