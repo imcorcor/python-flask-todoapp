@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, json
 from models.todo import Todo
-
+import os
 
 app = Flask(__name__)
 
@@ -11,7 +11,8 @@ def list():
     Shows list of todo items stored in the database.
     """
     todo_list = Todo.get_all()
-    return render_template("index.html", todo_list=todo_list)
+    app_version = os.getenv('APP_VERSION')
+    return render_template("index.html", todo_list=todo_list, app_version=app_version)
 
 
 @app.route('/add', methods=["POST"])
@@ -56,4 +57,4 @@ def toggle(todo_id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
